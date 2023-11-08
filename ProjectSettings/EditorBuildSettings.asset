@@ -4,7 +4,10 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/Scenes/VRPentathalon.unity
+    guid: 2b84e94b6bb7a994fbb13d57f94e085d
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 8dc04031be84fdf4ea4777f7b3605f2b,
       type: 2}
