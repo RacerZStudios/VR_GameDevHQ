@@ -1,23 +1,79 @@
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.XR; // get XR namespace library
 using UnityEngine;
 
 public class TeleportToSpawn : MonoBehaviour
 {
     [SerializeField]
-    public Transform playerPos;
+    private Transform playerPos;
 
     [SerializeField]
-    public Transform spawn;
+    private Transform spawn;
 
     [SerializeField]
-    public BoxCollider cabCollider;
+    private BoxCollider cabCollider;
 
     [SerializeField]
     private bool canInteract;
 
     [SerializeField]
-    public Transform []otherSpawns;  
+    private Transform []otherSpawns;
+
+    private InputDevice inputDevice; // get VR input device 
+
+    private void Start()
+    {
+        bool connectedDevice; 
+        inputDevice.TryGetFeatureValue(CommonUsages.userPresence, out connectedDevice);
+        if(inputDevice != null && connectedDevice)
+        {
+            inputDevice.subsystem.Start();
+            Debug.Log(inputDevice); 
+        }
+
+        var leftHandedDevice = new List<UnityEngine.XR.InputDevice>();
+        UnityEngine.XR.InputDevices.GetDevicesAtXRNode(UnityEngine.XR.XRNode.LeftHand, leftHandedDevice);
+
+        if (connectedDevice)
+        {
+            if (leftHandedDevice.Count == 0)
+            {
+                UnityEngine.XR.InputDevice inputDevice = leftHandedDevice[0];
+                print(inputDevice);
+            }
+            else if (leftHandedDevice.Count > 1)
+            {
+                print(inputDevice + "More than one input found");
+            }
+        }
+        else
+        {
+            print(connectedDevice + "Not Connected to Device"); 
+        }
+
+        // get connected input device
+        List<InputDevice> inputDevices = new List<UnityEngine.XR.InputDevice>();
+        UnityEngine.XR.InputDevice.Equals(this, inputDevices);
+
+        if (inputDevices.Count > 0)
+        {
+            inputDevice = inputDevices[0];
+            inputDevice.GetType(); 
+        }
+
+        // find vr controller or headset 
+        foreach(InputDevice device in inputDevices)
+        {
+            if(device.characteristics == InputDeviceCharacteristics.Left || device.characteristics == InputDeviceCharacteristics.Right)
+            {
+                Debug.Log("Device found"); 
+                inputDevice = device;
+                print(device.characteristics);
+                break; 
+            }
+        }
+    }
 
     private void Update()
     {
@@ -30,6 +86,23 @@ public class TeleportToSpawn : MonoBehaviour
                 playerPos.gameObject.GetComponentInParent<CharacterController>().enabled = false;
                 playerPos.position = spawn.position;
                 playerPos.gameObject.GetComponentInParent<CharacterController>().enabled = true;
+            }
+        }
+
+        // check if button pressed
+        if (inputDevice.isValid)
+        {
+            bool buttonPressed;
+            if (inputDevice.TryGetFeatureValue(CommonUsages.primaryButton, out buttonPressed) && buttonPressed)
+            {
+                print("Button Pressed");
+            }
+
+            // Get Trigger input 
+            float trigger;
+            if (inputDevice.TryGetFeatureValue(CommonUsages.trigger, out trigger))
+            {
+                print("Trigger Pressed");
             }
         }
 
