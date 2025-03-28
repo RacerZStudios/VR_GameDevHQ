@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Ground
   - Target
+  - Event
   layers:
   - Default
   - TransparentFX
@@ -15,7 +16,7 @@ TagManager:
   - UI
   - XROrigin
   - GrabInteractable
-  - 
+  - Detection
   - 
   - 
   - 

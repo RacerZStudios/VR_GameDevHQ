@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.XR; // get XR namespace library
 using UnityEngine;
+using Unity.VisualScripting;
 
 public class TeleportToSpawn : MonoBehaviour
 {
@@ -111,6 +112,45 @@ public class TeleportToSpawn : MonoBehaviour
         Spawn3();
         Spawn4();
         Spawn5();
+    }
+
+    public void SpawnPos1()
+    {
+        playerPos.gameObject.GetComponentInParent<CharacterController>().enabled = false;
+        playerPos.position = otherSpawns[0].position;
+        playerPos.gameObject.GetComponentInParent<CharacterController>().enabled = true;
+    }
+
+
+    public void SpawnPos2()
+    {
+        playerPos.gameObject.GetComponentInParent<CharacterController>().enabled = false;
+        playerPos.position = otherSpawns[1].position;
+        playerPos.gameObject.GetComponentInParent<CharacterController>().enabled = true;
+    }
+
+
+    public void SpawnPos3()
+    {
+        playerPos.gameObject.GetComponentInParent<CharacterController>().enabled = false;
+        playerPos.position = otherSpawns[2].position;
+        playerPos.gameObject.GetComponentInParent<CharacterController>().enabled = true;
+    }
+
+
+    public void SpawnPos4()
+    {
+        playerPos.gameObject.GetComponentInParent<CharacterController>().enabled = false;
+        playerPos.position = otherSpawns[3].position;
+        playerPos.gameObject.GetComponentInParent<CharacterController>().enabled = true;
+    }
+
+
+    public void SpawnPos5()
+    {
+        playerPos.gameObject.GetComponentInParent<CharacterController>().enabled = false;
+        playerPos.position = otherSpawns[4].position;
+        playerPos.gameObject.GetComponentInParent<CharacterController>().enabled = true;
     }
 
     private IEnumerator EnableCollision()
